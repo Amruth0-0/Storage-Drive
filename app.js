@@ -1,14 +1,22 @@
 const express = require('express');
 const userRouter = require('./routes/user.routes');
-const app = express();
+const connectDB = require('./config/db');
+const {body, ValidationResult} = require('express-validator')
+const dotenv = require('dotenv');
 
+
+const app = express();
+dotenv.config();
+connectDB();
+
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 app.set('view engine', 'ejs');
 
 app.use('/user', userRouter);
 
-app.get('/', (req,res) =>{
-    res.render('index');
-})
 
-
-app.listen(5000);
+app.listen(5000, ()=>{
+    console.log("Server Running on Port 5000");
+});
